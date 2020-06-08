@@ -25,7 +25,7 @@ async function start() {
   }
   app.use(logger)
   app.use(errorHandler)
-  app.use(bodyParser)
+  app.use(bodyParser())
   app.use((ctx: Koa.Context) => {
     ctx.status = 200
     ctx.respond = false // Bypass Koa's built-in response handling
