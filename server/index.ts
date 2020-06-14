@@ -3,6 +3,7 @@ import logger from './middleware/logger'
 import log4js from 'log4js'
 import errorHandler from './middleware/errorHandler'
 import bodyParser from 'koa-bodyparser'
+import router from './router'
 
 const { Nuxt, Builder } = require('nuxt')
 
@@ -23,18 +24,23 @@ async function start() {
     const builder = new Builder(nuxt)
     await builder.build()
   }
-  app.use(logger)
-  app.use(errorHandler)
-  app.use(bodyParser())
-  app.use((ctx: Koa.Context) => {
-    ctx.status = 200
-    ctx.respond = false // Bypass Koa's built-in response handling
-    // ctx.req.ctx = ctx // This might be useful later on, e.g. in nuxtServerInit or with nuxt-stash
-    nuxt.render(ctx.req, ctx.res)
-  })
+  app
+    .use(logger)
+    .use(errorHandler)
+    .use(bodyParser())
+    .use(router.routes())
+    .use(router.allowedMethods())
+    .use((ctx: Koa.Context) => {
+      ctx.status = 200
+      ctx.respond = false // Bypass Koa's built-in response handling
+      // ctx.req.ctx = ctx // This might be useful later on, e.g. in nuxtServerInit or with nuxt-stash
+      nuxt.render(ctx.req, ctx.res)
+    })
 
   app.listen(port, host)
-  log4js.getLogger().info(`Server listening on http://${host}:${port}`)
+  const masterLogger = log4js.getLogger()
+  masterLogger.level = 'debug'
+  masterLogger.info(`Server listening on http://${host}:${port}`)
 }
 
 start()
