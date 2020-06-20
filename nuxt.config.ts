@@ -46,6 +46,7 @@ module.exports = {
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
     '@nuxtjs/auth',
+    '@nuxtjs/toast',
   ],
   auth: {
     redirect: {
@@ -70,6 +71,9 @@ module.exports = {
   axios: {
     host: 'localhost',
     port: 3000,
+  },
+  toast: {
+    position: 'top-right',
   },
   /*
    ** vuetify module configuration

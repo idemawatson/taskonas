@@ -1,5 +1,6 @@
 import { accessorType } from '~/store'
 import { Auth } from '@nuxtjs/auth'
+import {} from '@nuxtjs/toast'
 
 declare module 'vue/types/vue' {
   interface Vue {

@@ -1,6 +1,6 @@
 import { MongoClient, Collection, ObjectId } from 'mongodb'
 
-const MONGODB_URI = 'mongodb://taskonas:mongo@localhost:27017/taskonas'
+const MONGODB_URI = 'mongodb://taskonas:mongo@localhost:27017/taskonas?authSource=admin'
 
 export type User = {
   _id?: ObjectId
@@ -25,6 +25,7 @@ export const collections: {
 export const connect = async () => {
   const client = await MongoClient.connect(MONGODB_URI, {
     useNewUrlParser: true,
+    useUnifiedTopology: true,
   })
 
   const db = client.db('taskonas')

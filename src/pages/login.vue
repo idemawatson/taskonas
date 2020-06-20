@@ -13,29 +13,35 @@
   </v-container>
 </template>
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  middleware({ store, redirect }) {
-    if (store.state.loggedIn) {
-      return redirect('/')
-    }
-  },
-  data: () => ({
-    form: {
-      name: '',
-      email: '',
-      password: '',
-    },
-  }),
-  methods: {
-    async login() {
-      try {
-        let response = await this.$auth.loginWith('local', { data: this.form })
-        console.log(response)
-      } catch (err) {
-        console.error(err)
-      }
-    },
+import { Component, Vue } from 'nuxt-property-decorator'
+
+interface LoginForm {
+  name: string
+  email: string
+  password: string
+}
+@Component({
+  middleware: ({ store, redirect }) => {
+    if (store.state.loggedIn) return redirect('/')
   },
 })
+export default class Login extends Vue {
+  form: LoginForm = {
+    name: '',
+    email: '',
+    password: '',
+  }
+  async login() {
+    try {
+      let response = await this.$auth.loginWith('local', { data: this.form })
+      console.log(response)
+    } catch (err) {
+      if (err.status > 500) {
+        alert('Internal server error')
+      } else {
+        this.$toast.error('認証に失敗しました。', { duration: 3000, position: 'top-right' })
+      }
+    }
+  }
+}
 </script>
