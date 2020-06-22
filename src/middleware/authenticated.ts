@@ -1,6 +1,6 @@
 import { Middleware, Context } from '@nuxt/types'
-const isAuthenticated: Middleware = ({ redirect, app: { $accessor } }: Context) => {
-  if ($accessor.loggedIn) {
+const isAuthenticated: Middleware = ({ redirect, app: { store } }: Context) => {
+  if (store.$auth.loggedIn) {
     return redirect('/login')
   }
 }

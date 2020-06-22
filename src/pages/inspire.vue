@@ -10,6 +10,16 @@
           </small>
         </footer>
       </blockquote>
+      <v-btn @click="logout">LOGOUT</v-btn>
     </v-flex>
   </v-layout>
 </template>
+<script>
+export default {
+  methods: {
+    logout() {
+      this.$auth.logout()
+    },
+  },
+}
+</script>

@@ -52,7 +52,7 @@ module.exports = {
     redirect: {
       login: '/login',
       logout: '/login',
-      callback: false,
+      callback: '/',
       home: '/',
     },
     strategies: {
@@ -60,6 +60,7 @@ module.exports = {
         endpoints: {
           login: { url: 'api/login', method: 'post', propertyName: 'token' },
           logout: false,
+          user: false,
         },
       },
     },
