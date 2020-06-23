@@ -1,11 +1,13 @@
 import { accessorType } from '~/store'
 import { Auth } from '@nuxtjs/auth'
+import { NuxtAxiosInstance } from '@nuxtjs/axios'
 import {} from '@nuxtjs/toast'
 
 declare module 'vue/types/vue' {
   interface Vue {
     $accessor: typeof accessorType
     $auth: Auth
+    $axios: NuxtAxiosInstance
   }
 }
 
