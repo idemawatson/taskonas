@@ -1,15 +1,14 @@
 <template>
-  <v-container>
-    <v-card>
-      <v-card-text>
-        <v-form>
-          <v-text-field label="Email" v-model="form.email"></v-text-field>
-          <v-text-field label="Password" type="password" v-model="form.password"></v-text-field>
-          <v-btn color="primary" @click="login">LOGIN</v-btn>
-        </v-form>
-      </v-card-text>
-    </v-card>
-  </v-container>
+  <v-card class="center-card">
+    <v-card-title>Login</v-card-title>
+    <v-card-text>
+      <v-form>
+        <v-text-field label="Email" v-model="form.email"></v-text-field>
+        <v-text-field label="Password" type="password" v-model="form.password"></v-text-field>
+        <v-btn color="primary" @click="login">LOGIN</v-btn>
+      </v-form>
+    </v-card-text>
+  </v-card>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
@@ -22,6 +21,7 @@ interface LoginForm {
   middleware: ({ store, redirect }) => {
     if (store.$auth.loggedIn) return redirect('/')
   },
+  layout: 'login',
 })
 export default class Login extends Vue {
   form: LoginForm = {
@@ -43,3 +43,15 @@ export default class Login extends Vue {
   }
 }
 </script>
+<style scoped>
+.center-card {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform-origin: 0 0 0;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 500px;
+  z-index: 1;
+}
+</style>
