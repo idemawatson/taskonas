@@ -4,7 +4,7 @@ import log4js from 'log4js'
 import errorHandler from './middleware/errorHandler'
 import bodyParser from 'koa-bodyparser'
 import router from './router'
-import * as db from './db'
+import connectDB from './db'
 
 const { Nuxt, Builder } = require('nuxt')
 
@@ -37,10 +37,10 @@ async function start() {
       // ctx.req.ctx = ctx // This might be useful later on, e.g. in nuxtServerInit or with nuxt-stash
       nuxt.render(ctx.req, ctx.res)
     })
-  await db.connect()
-  app.listen(port, host)
   const masterLogger = log4js.getLogger()
   masterLogger.level = 'debug'
+  connectDB(masterLogger)
+  app.listen(port, host)
   masterLogger.info(`Server listening on http://${host}:${port}`)
 }
 

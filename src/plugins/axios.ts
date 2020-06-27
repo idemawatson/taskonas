@@ -2,7 +2,7 @@ import { NuxtAxiosInstance } from '@nuxtjs/axios'
 import { Context } from '@nuxt/types'
 export default ({ store, $axios }: Context): void => {
   $axios.onRequest(config => {
-    config.headers.common['Authorization'] = `Bearer ${store.state.token}`
+    config.headers.common['Authorization'] = `${store.$auth.getToken('local')}`
     config.headers.common['Accept'] = 'application/json'
   })
 

@@ -1,34 +1,11 @@
-import { MongoClient, Collection, ObjectId } from 'mongodb'
+import mongoose from 'mongoose'
+import { Logger } from 'log4js'
 
 const MONGODB_URI = 'mongodb://taskonas:mongo@localhost:27017/taskonas?authSource=admin'
 
-export type User = {
-  _id?: ObjectId
-  name: string
-  email: string
-}
-
-export type Task = {
-  _id?: ObjectId
-  name: string
-  status: string
-}
-
-export const collections: {
-  user: Collection<User>
-  task: Collection<Task>
-} = {
-  user: null,
-  task: null,
-}
-
-export const connect = async () => {
-  const client = await MongoClient.connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-
-  const db = client.db('taskonas')
-  collections.user = db.collection<User>('user')
-  collections.task = db.collection<Task>('task')
+export default function connectDB(logger: Logger) {
+  mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  const db = mongoose.connection
+  db.on('error', () => logger.error('DB connection error:'))
+  db.once('open', () => logger.info('DB connection successful'))
 }

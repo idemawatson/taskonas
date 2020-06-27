@@ -1,23 +1,17 @@
 import { sign } from 'jsonwebtoken'
 import * as Koa from 'koa'
-import { ObjectId } from 'mongodb'
 import User from '../model/User'
+import tokenSecret from '../auth/tokenSecret'
 
-const SECRET = 'secret'
 const login = async (ctx: Koa.Context) => {
   const req = ctx.request.body
-  const payload: {
-    email: string
-    password: string
-    id?: ObjectId
-  } = {
+  const user = await User.findOne({
     email: req.email,
     password: req.password,
-  }
-  const user = await User.getUser(payload)
+  })
   ctx.assert(user, 401, 'unauthenticated')
-  payload.id = user._id
-  const token = sign(payload, SECRET)
+  ctx.logger.debug(user)
+  const token = sign(user.toJSON(), tokenSecret, { expiresIn: '1h' })
   ctx.logger.debug(`token: ${token}`)
   ctx.response.body = { token: token }
 }
