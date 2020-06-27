@@ -1,6 +1,7 @@
 <template>
   <v-container>
-    <v-card></v-card>
+    <v-card v-for="task in tasks" :key="task.index"></v-card>
+    <v-card v-if="tasks.length === 0">タスクがありません。</v-card>
   </v-container>
 </template>
 <script lang="ts">

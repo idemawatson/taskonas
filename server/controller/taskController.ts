@@ -5,6 +5,7 @@ const getTasks = async (ctx: Koa.Context) => {
   const tasks = await Task.find({
     user: ctx.user._id,
   })
+  ctx.logger.debug(tasks)
   ctx.response.body = tasks
 }
 
