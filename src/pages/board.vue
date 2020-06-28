@@ -1,7 +1,11 @@
 <template>
   <div>
     <v-container>
-      <v-card v-for="task in tasks" :key="task.index">{{ task }}</v-card>
+      <v-card v-for="task in tasks" :key="task.index" class="task-card" flat dark>
+        <v-card-text style="font-size: 1.25em; color: white">
+          {{ task.title }}
+        </v-card-text>
+      </v-card>
       <v-card v-if="tasks.length === 0">タスクがありません。</v-card>
     </v-container>
     <addTaskModal @submit="addTask"></addTaskModal>
@@ -19,12 +23,8 @@ import addTaskModal, { TaskForm } from '../components/modal/addTask.vue'
   },
   middleware: authenticated,
   async asyncData({ app, redirect }: Context) {
-    try {
-      const res = await app.$axios.get('api/getTasks')
-      return { tasks: res.data }
-    } catch (err) {
-      if (err.response.status === 401) redirect('/login')
-    }
+    const res = await app.$axios.get('api/getTasks')
+    return { tasks: res.data }
   },
 })
 export default class Board extends Vue {
@@ -40,3 +40,11 @@ export default class Board extends Vue {
   }
 }
 </script>
+<style scoped>
+.task-card {
+  border: solid 1px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  background: #ffab40;
+}
+</style>
