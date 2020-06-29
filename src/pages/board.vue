@@ -2,8 +2,9 @@
   <div>
     <v-container>
       <v-card v-for="task in tasks" :key="task.index" class="task-card" flat dark>
-        <v-card-text style="font-size: 1.25em; color: white">
-          {{ task.title }}
+        <v-card-text class="py-2" style="color: white">
+          <div style="font-size: 1.25em;">{{ task.title }}</div>
+          <div style="font-size: 1em;">{{ task.deadline }}</div>
         </v-card-text>
       </v-card>
       <v-card v-if="tasks.length === 0">タスクがありません。</v-card>
@@ -45,6 +46,6 @@ export default class Board extends Vue {
   border: solid 1px;
   margin-top: 4px;
   margin-bottom: 4px;
-  background: #ffab40;
+  background: #0277bd;
 }
 </style>
